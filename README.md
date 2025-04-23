@@ -11,7 +11,7 @@ Esta aplicación permite visualizar y gestionar productos a través de dos pági
 
 ## Tecnologías
 
-- React 19
+- React 18
 - Vite
 - React Router
 - Jest
@@ -46,6 +46,7 @@ El proyecto sigue una arquitectura por capas:
    - Utilidades
    - Constantes
    - Tipos/Interfaces
+   - Cache (IndexedDB)
 
 ## Estructura del Proyecto
 
@@ -54,17 +55,30 @@ src/
 ├── presentation/
 │   ├── components/
 │   ├── pages/
+│   │   ├── ProductListPage.jsx
+│   │   └── ProductDetailsPage.jsx
 │   ├── hooks/
 │   └── routes/
+│       └── AppRouter.jsx
 ├── business/
 │   ├── services/
 │   └── use-cases/
 ├── data/
-│   ├── repositories/
-│   └── models/
+│   ├── models/
+│   │   ├── Product.js
+│   │   ├── ProductDetail.js
+│   │   └── Cart.js
+│   └── repositories/
+│       ├── productRepository.js
+│       └── cartRepository.js
 └── infrastructure/
     ├── config/
     ├── styles/
+    │   └── theme/
+    │       ├── variables.css
+    │       └── reset.css
+    ├── cache/
+    │   └── indexedDB.js
     ├── utils/
     └── types/
 ```
@@ -81,13 +95,18 @@ src/
 El proyecto requiere las siguientes variables de entorno:
 
 ```env
-# Configuración de la API.
+# API Configuration
 VITE_API_BASE_URL=https://itx-frontend-test.onrender.com
 VITE_API_TIMEOUT=30000
 
-# Configuración de la cache.
+# Cache Configuration
 VITE_CACHE_DURATION=3600000
 VITE_ENABLE_CACHE=true
+
+# IndexedDB Configuration
+VITE_DB_NAME=ams-products-db
+VITE_DB_VERSION=1
+VITE_DB_STORE_NAME=products
 ```
 
 ## Instalación
@@ -96,3 +115,12 @@ VITE_ENABLE_CACHE=true
 2. Instalar dependencias: `npm install`
 3. Crear archivo `.env` con las variables necesarias
 4. Iniciar desarrollo: `npm start`
+
+## Características Implementadas
+
+- Arquitectura por capas
+- Sistema de rutas con React Router
+- Sistema de temas con CSS variables
+- Cache de datos con IndexedDB
+- Repositorios para productos y carrito
+- Modelos de datos tipados
