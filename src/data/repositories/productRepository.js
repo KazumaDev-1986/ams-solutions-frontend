@@ -1,10 +1,10 @@
-import { createProduct, createProductDetail } from "../models/Product";
+import { createProduct } from "../models/Product";
+import { createProductDetail } from "../models/ProductDetail";
 import {
   getFromCache,
   saveToCache,
 } from "../../infrastructure/cache/indexedDB";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { API_BASE_URL } from "../../config/env";
 
 /**
  * Get product list

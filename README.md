@@ -83,11 +83,32 @@ src/
     └── types/
 ```
 
+## Testing
+
+El proyecto utiliza Jest como framework de testing. La estructura de tests sigue la misma organización que el código fuente:
+
+```
+src/
+└── __tests__/
+    └── models/
+        ├── Product.test.js
+        ├── ProductDetail.test.js
+        └── Cart.test.js
+```
+
+### Scripts de Testing
+
+- `npm test`: Ejecuta todos los tests
+- `npm run test:watch`: Ejecuta los tests en modo watch
+- `npm run test:coverage`: Ejecuta los tests con reporte de cobertura
+
 ## Scripts Disponibles
 
 - `npm start`: Inicia el servidor de desarrollo
 - `npm run build`: Compila la aplicación para producción
-- `npm test`: Ejecuta los tests
+- `npm test`: Ejecuta todos los tests
+- `npm run test:watch`: Ejecuta los tests en modo watch
+- `npm run test:coverage`: Ejecuta los tests con reporte de cobertura
 - `npm run lint`: Ejecuta el linter
 
 ## Variables de Entorno
@@ -124,3 +145,4 @@ VITE_DB_STORE_NAME=products
 - Cache de datos con IndexedDB
 - Repositorios para productos y carrito
 - Modelos de datos tipados
+- Tests unitarios para modelos

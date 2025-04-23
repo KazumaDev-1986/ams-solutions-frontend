@@ -1,7 +1,9 @@
-const DB_NAME = import.meta.env.VITE_DB_NAME;
-const DB_VERSION = parseInt(import.meta.env.VITE_DB_VERSION, 10);
-const STORE_NAME = import.meta.env.VITE_DB_STORE_NAME;
-const CACHE_DURATION = import.meta.env.VITE_CACHE_DURATION;
+import {
+  DB_NAME,
+  DB_VERSION,
+  DB_STORE_NAME,
+  CACHE_DURATION,
+} from "../../config/env";
 
 /**
  * Initialize IndexedDB
@@ -16,8 +18,8 @@ export const initDB = () => {
 
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        const store = db.createObjectStore(STORE_NAME, { keyPath: "id" });
+      if (!db.objectStoreNames.contains(DB_STORE_NAME)) {
+        const store = db.createObjectStore(DB_STORE_NAME, { keyPath: "id" });
         store.createIndex("timestamp", "timestamp", { unique: false });
       }
     };
@@ -33,8 +35,8 @@ export const getFromCache = async (id) => {
   try {
     const db = await initDB();
     return new Promise((resolve, reject) => {
-      const transaction = db.transaction([STORE_NAME], "readonly");
-      const store = transaction.objectStore(STORE_NAME);
+      const transaction = db.transaction([DB_STORE_NAME], "readonly");
+      const store = transaction.objectStore(DB_STORE_NAME);
       const request = store.get(id);
 
       request.onerror = () => reject(request.error);
@@ -69,8 +71,8 @@ export const saveToCache = async (id, data) => {
   try {
     const db = await initDB();
     return new Promise((resolve, reject) => {
-      const transaction = db.transaction([STORE_NAME], "readwrite");
-      const store = transaction.objectStore(STORE_NAME);
+      const transaction = db.transaction([DB_STORE_NAME], "readwrite");
+      const store = transaction.objectStore(DB_STORE_NAME);
       const request = store.put({
         id,
         value: data,
