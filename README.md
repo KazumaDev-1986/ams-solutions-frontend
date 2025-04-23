@@ -90,11 +90,33 @@ El proyecto utiliza Jest como framework de testing. La estructura de tests sigue
 ```
 src/
 └── __tests__/
-    └── models/
-        ├── Product.test.js
-        ├── ProductDetail.test.js
-        └── Cart.test.js
+    ├── models/
+    │   ├── Product.test.js
+    │   ├── ProductDetail.test.js
+    │   └── Cart.test.js
+    └── data/
+        └── repositories/
+            ├── productRepository.test.js
+            └── cartRepository.test.js
 ```
+
+### Tests de Repositorios
+
+Los tests de repositorios verifican la interacción con la API y el sistema de caché:
+
+#### ProductRepository
+
+- Obtener lista de productos desde caché
+- Obtener lista de productos desde API cuando no hay caché
+- Obtener detalles de producto desde caché
+- Obtener detalles de producto desde API cuando no hay caché
+- Manejo de errores de API
+
+#### CartRepository
+
+- Añadir producto al carrito
+- Manejo de errores de API
+- Manejo de errores de red
 
 ### Scripts de Testing
 
