@@ -34,4 +34,12 @@
   --border-radius: 0.25rem;
   --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   --transition-base: all 0.3s ease;
+
+  /* Icon Sizes */
+  --size-icon-sm: 24px;
+  --size-icon-md: 32px;
+  --size-icon-lg: 48px;
+
+  /* Special Border Radius */
+  --border-radius-circle: 50%;
 } 
