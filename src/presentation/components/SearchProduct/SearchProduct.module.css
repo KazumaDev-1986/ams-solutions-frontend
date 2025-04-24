@@ -1,0 +1,39 @@
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  padding: var(--spacing-md);
+  padding-right: calc(var(--spacing-md) * 2 + var(--size-icon-md));
+  border: 1px solid var(--color-light);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-md);
+  transition: var(--transition-base);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-light);
+}
+
+.icon {
+  position: absolute;
+  right: calc(var(--spacing-sm));
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--size-icon-md);
+  height: var(--size-icon-md);
+  color: var(--color-secondary);
+  pointer-events: none;
+}
+
+
+@media (min-width: 1024px) {
+  .container {
+    width: 35%;
+    margin-left: auto;
+  }
+} 

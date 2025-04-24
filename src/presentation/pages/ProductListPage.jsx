@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { ProductGrid } from '../components/ProductGrid';
+import styles from './ProductListPage.module.css';
 
 const ProductListPage = () => {
   return (
-    <div>
-      <h1>Product List</h1>
-      <Link to="/product/1">Go to Product Details</Link>
+    <div className={styles.container}>
+      <ProductGrid />
     </div>
   );
 };

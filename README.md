@@ -8,15 +8,17 @@ Esta aplicación permite visualizar y gestionar productos a través de dos pági
 
 - Lista de productos con funcionalidad de búsqueda
 - Detalles del producto seleccionado
+- Carrito de compras con contador de items
 
 ## Tecnologías
 
 - React 18
 - Vite
-- React Router
-- Jest
+- React Router v6
+- Vitest + React Testing Library
 - IndexedDB
-- CSS Vanilla
+- CSS Modules
+- Zustand (State Management)
 
 ## Arquitectura
 
@@ -28,6 +30,7 @@ El proyecto sigue una arquitectura por capas:
    - Páginas
    - Hooks específicos de UI
    - Estilos
+   - Layouts
 
 2. **Negocio (Business Layer)**
 
@@ -47,22 +50,64 @@ El proyecto sigue una arquitectura por capas:
    - Constantes
    - Tipos/Interfaces
    - Cache (IndexedDB)
+   - Store (Zustand)
 
 ## Estructura del Proyecto
 
 ```
 src/
+├── __tests__/
+│   ├── presentation/
+│   │   └── components/
+│   │       ├── CartCounter/
+│   │       │   └── CartCounter.test.jsx
+│   │       ├── Header/
+│   │       │   └── Header.test.jsx
+│   │       ├── ProductCard/
+│   │       │   └── ProductCard.test.jsx
+│   │       ├── ProductGrid/
+│   │       │   └── ProductGrid.test.jsx
+│   │       └── SearchProduct/
+│   │           └── SearchProduct.test.jsx
+│   ├── data/
+│   │   └── repositories/
+│   │       ├── cartRepository.test.js
+│   │       └── productRepository.test.js
+│   └── models/
+│       ├── Cart.test.js
+│       ├── Product.test.js
+│       └── ProductDetail.test.js
 ├── presentation/
 │   ├── components/
+│   │   ├── CartCounter/
+│   │   │   ├── CartCounter.jsx
+│   │   │   └── CartCounter.module.css
+│   │   ├── Header/
+│   │   │   ├── Header.jsx
+│   │   │   └── Header.module.css
+│   │   ├── ProductCard/
+│   │   │   ├── ProductCard.jsx
+│   │   │   └── ProductCard.module.css
+│   │   ├── ProductGrid/
+│   │   │   ├── ProductGrid.jsx
+│   │   │   └── ProductGrid.module.css
+│   │   └── SearchProduct/
+│   │       ├── SearchProduct.jsx
+│   │       └── SearchProduct.module.css
+│   ├── layouts/
+│   │   └── MainLayout/
+│   │       ├── MainLayout.jsx
+│   │       └── MainLayout.module.css
 │   ├── pages/
 │   │   ├── ProductListPage.jsx
 │   │   └── ProductDetailsPage.jsx
+│   ├── styles/
+│   │   └── theme/
+│   │       ├── variables.css
+│   │       └── reset.css
 │   ├── hooks/
 │   └── routes/
 │       └── AppRouter.jsx
-├── business/
-│   ├── services/
-│   └── use-cases/
 ├── data/
 │   ├── models/
 │   │   ├── Product.js
@@ -73,65 +118,82 @@ src/
 │       └── cartRepository.js
 └── infrastructure/
     ├── config/
-    ├── styles/
-    │   └── theme/
-    │       ├── variables.css
-    │       └── reset.css
-    ├── cache/
-    │   └── indexedDB.js
-    ├── utils/
-    └── types/
+    ├── store/
+    │   ├── cart/
+    │   │   ├── actions.ts
+    │   │   ├── store.ts
+    │   │   └── types.ts
+    │   └── hooks/
+    │       └── useStore.ts
+    └── cache/
+        └── indexedDB.js
 ```
 
 ## Testing
 
-El proyecto utiliza Jest como framework de testing. La estructura de tests sigue la misma organización que el código fuente:
+El proyecto utiliza Vitest como framework de testing, junto con React Testing Library para los tests de componentes. La configuración de testing se encuentra en:
 
+- `vite.config.js` - Configuración de Vitest
+- `src/setupTests.js` - Configuración global de tests
+
+### Ejecutar Tests
+
+```bash
+# Ejecutar todos los tests
+npm test
+
+# Ejecutar tests en modo watch
+npm run test:watch
+
+# Ejecutar tests con coverage
+npm run test:coverage
 ```
-src/
-└── __tests__/
-    ├── models/
-    │   ├── Product.test.js
-    │   ├── ProductDetail.test.js
-    │   └── Cart.test.js
-    └── data/
-        └── repositories/
-            ├── productRepository.test.js
-            └── cartRepository.test.js
-```
 
-### Tests de Repositorios
+### Estructura de Tests
 
-Los tests de repositorios verifican la interacción con la API y el sistema de caché:
+Los tests están organizados siguiendo la misma estructura que el código fuente:
 
-#### ProductRepository
+- `__tests__/presentation/` - Tests de componentes y páginas
+- `__tests__/data/` - Tests de modelos y repositorios
+- `__tests__/models/` - Tests de modelos de datos
 
-- Obtener lista de productos desde caché
-- Obtener lista de productos desde API cuando no hay caché
-- Obtener detalles de producto desde caché
-- Obtener detalles de producto desde API cuando no hay caché
-- Manejo de errores de API
+### Convenciones de Testing
 
-#### CartRepository
-
-- Añadir producto al carrito
-- Manejo de errores de API
-- Manejo de errores de red
-
-### Scripts de Testing
-
-- `npm test`: Ejecuta todos los tests
-- `npm run test:watch`: Ejecuta los tests en modo watch
-- `npm run test:coverage`: Ejecuta los tests con reporte de cobertura
+1. **Nombres de archivos**: `ComponentName.test.jsx` para componentes React
+2. **Mocks**: Usar `vi.mock()` para mockear dependencias
+3. **Test IDs**: Usar `data-testid` para elementos que no tienen roles semánticos
+4. **Async Tests**: Usar `findBy` y `findAllBy` para operaciones asíncronas
 
 ## Scripts Disponibles
 
-- `npm start`: Inicia el servidor de desarrollo
-- `npm run build`: Compila la aplicación para producción
-- `npm test`: Ejecuta todos los tests
-- `npm run test:watch`: Ejecuta los tests en modo watch
-- `npm run test:coverage`: Ejecuta los tests con reporte de cobertura
-- `npm run lint`: Ejecuta el linter
+```bash
+# Iniciar servidor de desarrollo
+npm run dev
+
+# Construir para producción
+npm run build
+
+# Ejecutar tests
+npm test
+
+# Ejecutar tests en modo watch
+npm run test:watch
+
+# Ejecutar tests con coverage
+npm run test:coverage
+
+# Ejecutar linter
+npm run lint
+```
+
+## Tecnologías Principales
+
+- React 18
+- Vite
+- Vitest + React Testing Library
+- React Router v6
+- Zustand
+- CSS Modules
 
 ## Variables de Entorno
 
@@ -168,3 +230,6 @@ VITE_DB_STORE_NAME=products
 - Repositorios para productos y carrito
 - Modelos de datos tipados
 - Tests unitarios para modelos
+- Gestión de estado con Zustand
+- Componentes modulares con CSS Modules
+- Layout system con React Router

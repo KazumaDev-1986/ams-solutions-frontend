@@ -1,16 +1,16 @@
-import { describe, jest, it, expect, beforeEach } from "@jest/globals";
+import { describe, vi, it, expect, beforeEach } from "vitest";
 
-jest.unstable_mockModule("../../../data/models/Product", () => ({
-  createProduct: jest.fn((data) => ({ ...data, processed: true })),
+vi.mock("../../../data/models/Product", () => ({
+  createProduct: vi.fn((data) => ({ ...data, processed: true })),
 }));
 
-jest.unstable_mockModule("../../../data/models/ProductDetail", () => ({
-  createProductDetail: jest.fn((data) => ({ ...data, processed: true })),
+vi.mock("../../../data/models/ProductDetail", () => ({
+  createProductDetail: vi.fn((data) => ({ ...data, processed: true })),
 }));
 
-jest.unstable_mockModule("../../../infrastructure/cache/indexedDB", () => ({
-  getFromCache: jest.fn(),
-  saveToCache: jest.fn(),
+vi.mock("../../../infrastructure/cache/indexedDB", () => ({
+  getFromCache: vi.fn(),
+  saveToCache: vi.fn(),
 }));
 
 const { getProducts, getProductDetails } = await import(
@@ -19,8 +19,8 @@ const { getProducts, getProductDetails } = await import(
 
 describe("productRepository", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-    window.fetch = jest.fn();
+    vi.clearAllMocks();
+    window.fetch = vi.fn();
   });
 
   describe("getProducts", () => {
@@ -66,7 +66,7 @@ describe("productRepository", () => {
     });
 
     it("should throw an error when API request fails", async () => {
-      const consoleSpy = jest
+      const consoleSpy = vi
         .spyOn(console, "error")
         .mockImplementation(() => {});
       const { getFromCache } = await import(
@@ -125,7 +125,7 @@ describe("productRepository", () => {
     });
 
     it("should throw an error when API request fails", async () => {
-      const consoleSpy = jest
+      const consoleSpy = vi
         .spyOn(console, "error")
         .mockImplementation(() => {});
       const { getFromCache } = await import(

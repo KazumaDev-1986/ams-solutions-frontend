@@ -1,16 +1,16 @@
-import { describe, jest, it, expect, beforeEach } from "@jest/globals";
+import { describe, vi, it, expect, beforeEach } from "vitest";
 
-jest.unstable_mockModule("../../../data/models/Cart", () => ({
-  createCartItem: jest.fn((data) => ({ ...data, created: true })),
-  createCart: jest.fn((data) => ({ ...data, processed: true })),
+vi.mock("../../../data/models/Cart", () => ({
+  createCartItem: vi.fn((data) => ({ ...data, created: true })),
+  createCart: vi.fn((data) => ({ ...data, processed: true })),
 }));
 
 const { addToCart } = await import("../../../data/repositories/cartRepository");
 
 describe("cartRepository", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-    window.fetch = jest.fn();
+    vi.clearAllMocks();
+    window.fetch = vi.fn();
   });
 
   describe("addToCart", () => {
@@ -48,7 +48,7 @@ describe("cartRepository", () => {
     });
 
     it("should throw an error when the API request fails", async () => {
-      const consoleSpy = jest
+      const consoleSpy = vi
         .spyOn(console, "error")
         .mockImplementation(() => {});
 
@@ -62,7 +62,7 @@ describe("cartRepository", () => {
     });
 
     it("should throw an error when fetch throws an error", async () => {
-      const consoleSpy = jest
+      const consoleSpy = vi
         .spyOn(console, "error")
         .mockImplementation(() => {});
 
