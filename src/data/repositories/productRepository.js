@@ -10,7 +10,7 @@ import { API_BASE_URL } from "../../config/env";
  * Get product list
  * @returns {Promise<Array<import('../models/Product').Product>>}
  */
-export const getProducts = async () => {
+const getProducts = async () => {
   try {
     const cachedData = await getFromCache("list");
     if (cachedData) {
@@ -37,7 +37,7 @@ export const getProducts = async () => {
  * @param {string} id - Product id
  * @returns {Promise<import('../models/ProductDetail').ProductDetail>}
  */
-export const getProductDetails = async (id) => {
+const getProductDetails = async (id) => {
   try {
     const cachedData = await getFromCache(id);
     if (cachedData) {
@@ -57,4 +57,9 @@ export const getProductDetails = async (id) => {
     console.error("Error fetching product details:", error);
     throw error;
   }
+};
+
+export const productRepository = {
+  getProducts,
+  getProductDetails,
 };

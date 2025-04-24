@@ -8,7 +8,7 @@ import { API_BASE_URL } from "../../config/env";
  * @param {number} storageCode - Selected storage code
  * @returns {Promise<import('../models/Cart').Cart>}
  */
-export const addToCart = async (id, colorCode, storageCode) => {
+const addToCart = async (id, colorCode, storageCode) => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/cart`, {
       method: "POST",
@@ -28,4 +28,8 @@ export const addToCart = async (id, colorCode, storageCode) => {
     console.error("Error adding to cart:", error);
     throw error;
   }
+};
+
+export const cartRepository = {
+  addToCart,
 };

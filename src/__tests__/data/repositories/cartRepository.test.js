@@ -5,7 +5,9 @@ vi.mock("../../../data/models/Cart", () => ({
   createCart: vi.fn((data) => ({ ...data, processed: true })),
 }));
 
-const { addToCart } = await import("../../../data/repositories/cartRepository");
+const { cartRepository } = await import(
+  "../../../data/repositories/cartRepository"
+);
 
 describe("cartRepository", () => {
   beforeEach(() => {
@@ -30,7 +32,7 @@ describe("cartRepository", () => {
         json: () => Promise.resolve(mockCartResponse),
       });
 
-      const result = await addToCart(
+      const result = await cartRepository.addToCart(
         mockProductId,
         mockColorCode,
         mockStorageCode
@@ -55,7 +57,7 @@ describe("cartRepository", () => {
       fetch.mockResolvedValueOnce({ ok: false });
 
       await expect(
-        addToCart(mockProductId, mockColorCode, mockStorageCode)
+        cartRepository.addToCart(mockProductId, mockColorCode, mockStorageCode)
       ).rejects.toThrow("Failed to add product to cart");
 
       consoleSpy.mockRestore();
@@ -69,7 +71,7 @@ describe("cartRepository", () => {
       fetch.mockRejectedValueOnce(new Error("Network error"));
 
       await expect(
-        addToCart(mockProductId, mockColorCode, mockStorageCode)
+        cartRepository.addToCart(mockProductId, mockColorCode, mockStorageCode)
       ).rejects.toThrow("Network error");
 
       consoleSpy.mockRestore();

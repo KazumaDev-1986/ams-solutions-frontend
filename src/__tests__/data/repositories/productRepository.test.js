@@ -13,7 +13,7 @@ vi.mock("../../../infrastructure/cache/indexedDB", () => ({
   saveToCache: vi.fn(),
 }));
 
-const { getProducts, getProductDetails } = await import(
+const { productRepository } = await import(
   "../../../data/repositories/productRepository"
 );
 
@@ -35,7 +35,7 @@ describe("productRepository", () => {
       );
       getFromCache.mockResolvedValueOnce(mockProducts);
 
-      const result = await getProducts();
+      const result = await productRepository.getProducts();
 
       expect(getFromCache).toHaveBeenCalledWith("list");
       expect(result).toEqual(
@@ -53,7 +53,7 @@ describe("productRepository", () => {
         json: () => Promise.resolve(mockProducts),
       });
 
-      const result = await getProducts();
+      const result = await productRepository.getProducts();
 
       expect(getFromCache).toHaveBeenCalledWith("list");
       expect(fetch).toHaveBeenCalledWith(
@@ -75,7 +75,9 @@ describe("productRepository", () => {
       getFromCache.mockResolvedValueOnce(null);
       fetch.mockResolvedValueOnce({ ok: false });
 
-      await expect(getProducts()).rejects.toThrow("Failed to fetch products");
+      await expect(productRepository.getProducts()).rejects.toThrow(
+        "Failed to fetch products"
+      );
 
       consoleSpy.mockRestore();
     });
@@ -95,7 +97,7 @@ describe("productRepository", () => {
       );
       getFromCache.mockResolvedValueOnce(mockProductDetail);
 
-      const result = await getProductDetails(mockProductId);
+      const result = await productRepository.getProductDetails(mockProductId);
 
       expect(getFromCache).toHaveBeenCalledWith(mockProductId);
       expect(result).toEqual({ ...mockProductDetail, processed: true });
@@ -111,7 +113,7 @@ describe("productRepository", () => {
         json: () => Promise.resolve(mockProductDetail),
       });
 
-      const result = await getProductDetails(mockProductId);
+      const result = await productRepository.getProductDetails(mockProductId);
 
       expect(getFromCache).toHaveBeenCalledWith(mockProductId);
       expect(fetch).toHaveBeenCalledWith(
@@ -134,9 +136,9 @@ describe("productRepository", () => {
       getFromCache.mockResolvedValueOnce(null);
       fetch.mockResolvedValueOnce({ ok: false });
 
-      await expect(getProductDetails(mockProductId)).rejects.toThrow(
-        "Failed to fetch product details"
-      );
+      await expect(
+        productRepository.getProductDetails(mockProductId)
+      ).rejects.toThrow("Failed to fetch product details");
 
       consoleSpy.mockRestore();
     });

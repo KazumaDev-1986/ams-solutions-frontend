@@ -30,6 +30,10 @@
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
 
+  /* Container Sizes */
+  --container-max-width: 1200px;
+  --container-min-height: 400px;
+
   /* Other */
   --border-radius: 0.25rem;
   --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
