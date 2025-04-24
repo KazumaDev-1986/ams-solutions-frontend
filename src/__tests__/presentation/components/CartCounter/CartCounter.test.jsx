@@ -2,9 +2,9 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { describe, test, expect, vi } from 'vitest';
 import CartCounter from '../../../../presentation/components/CartCounter/CartCounter';
-import { useCart } from '../../../../infrastructure/store/hooks/useCart';
+import { useCart } from '../../../../presentation/hooks/useCart';
 
-vi.mock('../../../../infrastructure/store/hooks/useCart', () => ({
+vi.mock('../../../../presentation/hooks/useCart', () => ({
   useCart: vi.fn()
 }));
 

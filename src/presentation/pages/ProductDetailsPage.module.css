@@ -1,0 +1,5 @@
+.container {
+  width: 100%;
+  min-height: var(--container-min-height);
+  padding: var(--spacing-lg);
+} 

@@ -2,10 +2,11 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 import { ProductGrid } from '../../../../presentation/components/ProductGrid/ProductGrid';
-import { getProducts } from '../../../../data/repositories/productRepository';
 
 vi.mock('../../../../data/repositories/productRepository', () => ({
-  getProducts: vi.fn()
+  productRepository: {
+    getProducts: vi.fn()
+  }
 }));
 
 vi.mock('../../../../presentation/components/ProductCard', () => ({
@@ -15,6 +16,19 @@ vi.mock('../../../../presentation/components/ProductCard', () => ({
     </div>
   )
 }));
+
+vi.mock('../../../../presentation/components/SearchProduct', () => ({
+  SearchProduct: ({ value, onChange, placeholder }) => (
+    <input
+      type="text"
+      placeholder={placeholder}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+    />
+  )
+}));
+
+import { productRepository } from '../../../../data/repositories/productRepository';
 
 describe('ProductGrid', () => {
   const mockProducts = [
@@ -28,52 +42,40 @@ describe('ProductGrid', () => {
   });
 
   test('shows loading state initially', () => {
-    getProducts.mockImplementation(() => new Promise(() => {}));
-    
+    productRepository.getProducts.mockImplementation(() => new Promise(() => {}));
     render(<ProductGrid />);
-    
-    expect(screen.getByText('Loading products...')).toBeInTheDocument();
+    expect(screen.getByText((content) => content.includes('Loading products'))).toBeInTheDocument();
   });
 
   test('shows error state when products fail to load', async () => {
-    getProducts.mockRejectedValueOnce(new Error('Failed to load'));
-    
+    productRepository.getProducts.mockRejectedValueOnce(new Error('Failed to load'));
     render(<ProductGrid />);
-    
-    const errorMessage = await screen.findByText('Error loading products');
+    const errorMessage = await screen.findByText(/Error loading products/i);
     expect(errorMessage).toBeInTheDocument();
   });
 
   test('renders products when loaded successfully', async () => {
-    getProducts.mockResolvedValueOnce(mockProducts);
-    
+    productRepository.getProducts.mockResolvedValueOnce(mockProducts);
     render(<ProductGrid />);
-    
     const productCards = await screen.findAllByTestId(/product-card-/);
     expect(productCards).toHaveLength(3);
   });
 
   test('filters products based on search term', async () => {
-    getProducts.mockResolvedValueOnce(mockProducts);
-    
+    productRepository.getProducts.mockResolvedValueOnce(mockProducts);
     render(<ProductGrid />);
-    
     const searchInput = await screen.findByPlaceholderText('Search by model or brand...');
     fireEvent.change(searchInput, { target: { value: 'iPhone' } });
-    
     const productCards = screen.getAllByTestId(/product-card-/);
     expect(productCards).toHaveLength(1);
     expect(productCards[0]).toHaveTextContent('iPhone 12 - Apple');
   });
 
   test('shows no results message when no products match search', async () => {
-    getProducts.mockResolvedValueOnce(mockProducts);
-    
+    productRepository.getProducts.mockResolvedValueOnce(mockProducts);
     render(<ProductGrid />);
-    
     const searchInput = await screen.findByPlaceholderText('Search by model or brand...');
     fireEvent.change(searchInput, { target: { value: 'NonExistent' } });
-    
     expect(screen.getByText('No products found matching your search criteria')).toBeInTheDocument();
   });
-}); 
+});

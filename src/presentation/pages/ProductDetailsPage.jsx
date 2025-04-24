@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import ProductDetailsView from '../components/ProductDetails/ProductDetailsView/ProductDetailsView';
+import styles from './ProductDetailsPage.module.css';
 
 const ProductDetailsPage = () => {
   return (
-    <div>
-      <h1>Product Details</h1>
-      <Link to="/">Back to Product List</Link>
+    <div className={styles.container}>
+      <ProductDetailsView />
     </div>
   );
 };

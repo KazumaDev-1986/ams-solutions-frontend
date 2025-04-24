@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCart } from '../../../infrastructure/store/hooks/useCart';
+import { useCart } from '../../../presentation/hooks/useCart';
 import styles from './CartCounter.module.css';
 
 const CartCounter = () => {

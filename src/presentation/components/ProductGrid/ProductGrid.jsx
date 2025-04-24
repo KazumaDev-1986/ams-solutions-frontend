@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getProducts } from '../../../data/repositories/productRepository';
+import { productRepository } from '../../../data/repositories/productRepository';
 import { ProductCard } from '../ProductCard';
 import { SearchProduct } from '../SearchProduct';
 import styles from './ProductGrid.module.css';
@@ -13,7 +13,7 @@ export const ProductGrid = () => {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const data = await getProducts();
+        const data = await productRepository.getProducts();
         setProducts(data);
       } catch {
         setError('Error loading products');
