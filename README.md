@@ -31,26 +31,16 @@ El proyecto sigue una arquitectura por capas:
    - Hooks específicos de UI
    - Estilos
    - Layouts
+   - Routes
 
-2. **Negocio (Business Layer)**
-
-   - Servicios
-   - Casos de uso
-   - Lógica de negocio
-
-3. **Datos (Data Layer)**
+2. **Datos (Data Layer)**
 
    - Repositorios
-   - APIs
-   - Manejo de estado
+   - Modelos
 
-4. **Infraestructura (Infrastructure Layer)**
-   - Configuraciones
-   - Utilidades
-   - Constantes
-   - Tipos/Interfaces
+3. **Infraestructura (Infrastructure Layer)**
+
    - Cache (IndexedDB)
-   - Store (Zustand)
 
 ## Estructura del Proyecto
 
@@ -67,6 +57,9 @@ src/
 │   │       │   └── ProductCard.test.jsx
 │   │       ├── ProductGrid/
 │   │       │   └── ProductGrid.test.jsx
+│   │       ├── ProductDetails/
+│   │       │   └── ProductActions/
+│   │       │       └── ProductActions.test.jsx
 │   │       └── SearchProduct/
 │   │           └── SearchProduct.test.jsx
 │   ├── data/
@@ -91,6 +84,10 @@ src/
 │   │   ├── ProductGrid/
 │   │   │   ├── ProductGrid.jsx
 │   │   │   └── ProductGrid.module.css
+│   │   ├── ProductDetails/
+│   │   │   └── ProductActions/
+│   │   │       ├── ProductActions.jsx
+│   │   │       └── ProductActions.module.css
 │   │   └── SearchProduct/
 │   │       ├── SearchProduct.jsx
 │   │       └── SearchProduct.module.css
@@ -106,6 +103,7 @@ src/
 │   │       ├── variables.css
 │   │       └── reset.css
 │   ├── hooks/
+│   │   └── useCart.js
 │   └── routes/
 │       └── AppRouter.jsx
 ├── data/
@@ -116,17 +114,14 @@ src/
 │   └── repositories/
 │       ├── productRepository.js
 │       └── cartRepository.js
-└── infrastructure/
-    ├── config/
-    ├── store/
-    │   ├── cart/
-    │   │   ├── actions.ts
-    │   │   ├── store.ts
-    │   │   └── types.ts
-    │   └── hooks/
-    │       └── useStore.ts
-    └── cache/
-        └── indexedDB.js
+├── infrastructure/
+│   ├── config/
+│   │   └── env.js
+│   └── cache/
+│       └── indexedDB.js
+├── assets/
+├── setupTests.js
+└── main.jsx
 ```
 
 ## Testing
@@ -167,6 +162,9 @@ Los tests están organizados siguiendo la misma estructura que el código fuente
 ## Scripts Disponibles
 
 ```bash
+# Iniciar servidor de desarrollo
+npm run start
+
 # Iniciar servidor de desarrollo
 npm run dev
 
