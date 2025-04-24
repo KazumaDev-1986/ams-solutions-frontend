@@ -27,14 +27,6 @@ describe("ProductCard", () => {
     );
   });
 
-  test("renders without brand when not provided", () => {
-    const productWithoutBrand = { ...mockProduct, brand: undefined };
-    renderWithRouter(<ProductCard {...productWithoutBrand} />);
-
-    expect(screen.getByText(mockProduct.model)).toBeInTheDocument();
-    expect(screen.queryByText(mockProduct.brand)).not.toBeInTheDocument();
-  });
-
   test("links to correct product detail page", () => {
     renderWithRouter(<ProductCard {...mockProduct} />);
 

@@ -11,7 +11,7 @@ export const ProductCard = ({ id, model, brand, image }) => {
       </div>
       <div className={styles.content}>
         <h3 className={styles.model}>{model}</h3>
-        {brand && <p className={styles.brand}>{brand}</p>}
+        <p className={styles.brand}>{brand}</p>
       </div>
     </Link>
   );
@@ -20,6 +20,6 @@ export const ProductCard = ({ id, model, brand, image }) => {
 ProductCard.propTypes = {
   id: PropTypes.string.isRequired,
   model: PropTypes.string.isRequired,
-  brand: PropTypes.string,
+  brand: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
 }; 
