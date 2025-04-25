@@ -52,8 +52,8 @@
   color: var(--color-danger);
 }
 
-/*  (768px == --breakpoint-md) */
-@media (max-width: 768px) {
+/*  (992px == --breakpoint-lg) */
+@media (max-width: 992px) {
   .container {
     grid-template-columns: 1fr;
   }

@@ -9,6 +9,7 @@ const ProductImage = ({ imgUrl, brand, model }) => {
         src={imgUrl} 
         alt={`${brand} ${model}`}
         className={styles.image}
+        loading="lazy"
       />
     </div>
   );

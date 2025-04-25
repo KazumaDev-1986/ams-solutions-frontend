@@ -17,6 +17,8 @@ const ProductDescription = ({
 }) => {
   const cameras = primaryCamera ? (Array.isArray(primaryCamera) ? primaryCamera : [primaryCamera]) : [];
   const operatingSystems = os ? (Array.isArray(os) ? os : [os]) : [];
+  const cpus = cpu ? (Array.isArray(cpu) ? cpu : [cpu]) : [];
+  const rams = ram ? (Array.isArray(ram) ? ram : [ram]) : [];
 
   return (
     <div className={styles.container}>
@@ -26,20 +28,40 @@ const ProductDescription = ({
       </div>
 
       <div className={styles.specs}>
-        {(cpu || ram || operatingSystems.length > 0 || displayResolution || battery) && (
+        {(cpus.length > 0 || rams.length > 0 || operatingSystems.length > 0 || displayResolution || battery) && (
           <div className={styles.specGroup}>
             <h2 className={styles.groupTitle}>Características principales</h2>
             <ul className={styles.specList}>
-              {cpu && (
+              {cpus.length > 0 && (
                 <li className={styles.specItem}>
                   <span className={styles.specLabel}>CPU:</span>
-                  <span className={styles.specValue}>{cpu}</span>
+                  <span className={styles.specValue}>
+                    {cpus.length === 1 
+                      ? cpus[0]
+                      : cpus.map((cpu, index) => (
+                          <span key={index}>
+                            {index > 0 && ' / '}
+                            {cpu}
+                          </span>
+                        ))
+                    }
+                  </span>
                 </li>
               )}
-              {ram && (
+              {rams.length > 0 && (
                 <li className={styles.specItem}>
                   <span className={styles.specLabel}>RAM:</span>
-                  <span className={styles.specValue}>{ram}</span>
+                  <span className={styles.specValue}>
+                    {rams.length === 1 
+                      ? rams[0]
+                      : rams.map((ram, index) => (
+                          <span key={index}>
+                            {index > 0 && ' / '}
+                            {ram}
+                          </span>
+                        ))
+                    }
+                  </span>
                 </li>
               )}
               {operatingSystems.length > 0 && (
@@ -123,8 +145,14 @@ ProductDescription.propTypes = {
   brand: PropTypes.string.isRequired,
   model: PropTypes.string.isRequired,
   price: PropTypes.string,
-  cpu: PropTypes.string,
-  ram: PropTypes.string,
+  cpu: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
+  ram: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
   os: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string)

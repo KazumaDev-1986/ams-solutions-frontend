@@ -7,7 +7,7 @@ export const ProductCard = ({ id, model, brand, image }) => {
   return (
     <Link to={`/product/${id}`} className={styles.card}>
       <div className={styles.imageContainer}>
-        <img src={image} alt={model} className={styles.image} />
+        <img src={image} alt={model} className={styles.image} loading="lazy" />
       </div>
       <div className={styles.content}>
         <h3 className={styles.model}>{model}</h3>

@@ -1,49 +1,7 @@
-:root {
-  /* Colors */
-  --color-primary: #007bff;
-  --color-secondary: #6c757d;
-  --color-success: #28a745;
-  --color-danger: #dc3545;
-  --color-warning: #ffc107;
-  --color-info: #17a2b8;
-  --color-light: #f8f9fa;
-  --color-dark: #343a40;
-
-  /* Spacing */
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
-
-  /* Typography */
-  --font-family-base: 'Arial', sans-serif;
-  --font-size-base: 1rem;
-  --font-size-sm: 0.875rem;
-  --font-size-lg: 1.25rem;
-  --font-weight-normal: 400;
-  --font-weight-bold: 700;
-
-  /* Breakpoints */
-  --breakpoint-sm: 576px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 992px;
-  --breakpoint-xl: 1200px;
-
-  /* Container Sizes */
-  --container-max-width: 1200px;
-  --container-min-height: 400px;
-
-  /* Other */
-  --border-radius: 0.25rem;
-  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --transition-base: all 0.3s ease;
-
-  /* Icon Sizes */
-  --size-icon-sm: 24px;
-  --size-icon-md: 32px;
-  --size-icon-lg: 48px;
-
-  /* Special Border Radius */
-  --border-radius-circle: 50%;
-} 
+@import './colors.css';
+@import './spacing.css';
+@import './typography.css';
+@import './breakpoints.css';
+@import './layout.css';
+@import './effects.css';
+@import './sizes.css';

@@ -1,0 +1,6 @@
+:root {
+  --container-max-width: 1200px;
+  --container-min-height: 400px;
+  --border-radius: 0.25rem;
+  --border-radius-circle: 50%;
+} 

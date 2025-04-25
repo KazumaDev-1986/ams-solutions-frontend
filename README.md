@@ -2,6 +2,11 @@
 
 Aplicación frontend para la prueba técnica de AMS Solutions.
 
+## Despliegue
+
+La aplicación está desplegada en Vercel y puede ser accedida desde:
+[https://ams-solutions-frontend.vercel.app](https://ams-solutions-frontend.vercel.app)
+
 ## Descripción
 
 Esta aplicación permite visualizar y gestionar productos a través de dos páginas principales:
@@ -19,6 +24,7 @@ Esta aplicación permite visualizar y gestionar productos a través de dos pági
 - IndexedDB
 - CSS Modules
 - Zustand (State Management)
+- Vercel
 
 ## Arquitectura
 
@@ -101,6 +107,13 @@ src/
 │   ├── styles/
 │   │   └── theme/
 │   │       ├── variables.css
+│   │       ├── colors.css
+│   │       ├── spacing.css
+│   │       ├── typography.css
+│   │       ├── breakpoints.css
+│   │       ├── layout.css
+│   │       ├── effects.css
+│   │       ├── sizes.css
 │   │       └── reset.css
 │   ├── hooks/
 │   │   └── useCart.js
@@ -184,15 +197,6 @@ npm run test:coverage
 npm run lint
 ```
 
-## Tecnologías Principales
-
-- React 18
-- Vite
-- Vitest + React Testing Library
-- React Router v6
-- Zustand
-- CSS Modules
-
 ## Variables de Entorno
 
 El proyecto requiere las siguientes variables de entorno:
@@ -204,7 +208,6 @@ VITE_API_TIMEOUT=30000
 
 # Cache Configuration
 VITE_CACHE_DURATION=3600000
-VITE_ENABLE_CACHE=true
 
 # IndexedDB Configuration
 VITE_DB_NAME=ams-products-db
