@@ -2,12 +2,12 @@ export const API_BASE_URL =
   import.meta.env?.VITE_API_BASE_URL ??
   "https://itx-frontend-test.onrender.com";
 
-export const API_TIMEOUT = Number(import.meta.env?.VITE_API_TIMEOUT ?? 5000);
+export const API_TIMEOUT = Number(import.meta.env?.VITE_API_TIMEOUT ?? 15000);
 export const API_MAX_RETRIES = Number(
-  import.meta.env?.VITE_API_MAX_RETRIES ?? 3
+  import.meta.env?.VITE_API_MAX_RETRIES ?? 5
 );
 export const API_RETRY_DELAY = Number(
-  import.meta.env?.VITE_API_RETRY_DELAY ?? 1000
+  import.meta.env?.VITE_API_RETRY_DELAY ?? 2000
 );
 
 export const CACHE_DURATION = Number(
