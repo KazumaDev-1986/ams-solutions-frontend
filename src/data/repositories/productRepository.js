@@ -4,7 +4,8 @@ import {
   getFromCache,
   saveToCache,
 } from "../../infrastructure/cache/indexedDB";
-import { API_BASE_URL } from "../../config/env";
+import { apiClient } from "../../infrastructure/http/apiClient";
+import { ERROR_CODES } from "../../infrastructure/http/errorCodes";
 
 /**
  * Get product list
@@ -17,18 +18,22 @@ const getProducts = async () => {
       return cachedData.map(createProduct);
     }
 
-    const response = await fetch(`${API_BASE_URL}/api/product`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch products");
-    }
-
-    const data = await response.json();
+    const data = await apiClient.get("/api/product");
     await saveToCache("list", data);
-
     return data.map(createProduct);
   } catch (error) {
     console.error("Error fetching products:", error);
-    throw error;
+    if (error.code === ERROR_CODES.TIMEOUT) {
+      throw new Error(
+        "The server is taking too long to respond. Please try again in a moment."
+      );
+    }
+    if (error.code === ERROR_CODES.MAX_RETRIES_EXCEEDED) {
+      throw new Error(
+        "Unable to connect to the server. Please check your connection and try again."
+      );
+    }
+    throw new Error("Failed to fetch products. Please try again later.");
   }
 };
 
@@ -44,18 +49,22 @@ const getProductDetails = async (id) => {
       return createProductDetail(cachedData);
     }
 
-    const response = await fetch(`${API_BASE_URL}/api/product/${id}`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch product details");
-    }
-
-    const data = await response.json();
+    const data = await apiClient.get(`/api/product/${id}`);
     await saveToCache(id, data);
-
     return createProductDetail(data);
   } catch (error) {
     console.error("Error fetching product details:", error);
-    throw error;
+    if (error.code === ERROR_CODES.TIMEOUT) {
+      throw new Error(
+        "The server is taking too long to respond. Please try again in a moment."
+      );
+    }
+    if (error.code === ERROR_CODES.MAX_RETRIES_EXCEEDED) {
+      throw new Error(
+        "Unable to connect to the server. Please check your connection and try again."
+      );
+    }
+    throw new Error("Failed to fetch product details. Please try again later.");
   }
 };
 

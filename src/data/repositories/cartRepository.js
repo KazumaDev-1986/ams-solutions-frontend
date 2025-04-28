@@ -1,5 +1,6 @@
 import { createCartItem, createCart } from "../models/Cart";
-import { API_BASE_URL } from "../../config/env";
+import { apiClient } from "../../infrastructure/http/apiClient";
+import { ERROR_CODES } from "../../infrastructure/http/errorCodes";
 
 /**
  * Add product to cart
@@ -10,23 +11,24 @@ import { API_BASE_URL } from "../../config/env";
  */
 const addToCart = async (id, colorCode, storageCode) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/cart`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(createCartItem({ id, colorCode, storageCode })),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to add product to cart");
-    }
-
-    const data = await response.json();
+    const data = await apiClient.post(
+      "/api/cart",
+      createCartItem({ id, colorCode, storageCode })
+    );
     return createCart(data);
   } catch (error) {
     console.error("Error adding to cart:", error);
-    throw error;
+    if (error.code === ERROR_CODES.TIMEOUT) {
+      throw new Error(
+        "The server is taking too long to respond. Please try again in a moment."
+      );
+    }
+    if (error.code === ERROR_CODES.MAX_RETRIES_EXCEEDED) {
+      throw new Error(
+        "Unable to connect to the server. Please check your connection and try again."
+      );
+    }
+    throw new Error("Failed to add product to cart. Please try again later.");
   }
 };
 

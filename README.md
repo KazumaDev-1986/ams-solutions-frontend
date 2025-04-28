@@ -130,9 +130,11 @@ src/
 ├── infrastructure/
 │   ├── config/
 │   │   └── env.js
+│   ├── http/
+│   │   ├── apiClient.js
+│   │   └── errorCodes.js
 │   └── cache/
 │       └── indexedDB.js
-├── assets/
 ├── setupTests.js
 └── main.jsx
 ```
@@ -204,7 +206,9 @@ El proyecto requiere las siguientes variables de entorno:
 ```env
 # API Configuration
 VITE_API_BASE_URL=https://itx-frontend-test.onrender.com
-VITE_API_TIMEOUT=30000
+VITE_API_TIMEOUT=5000
+VITE_API_MAX_RETRIES=3
+VITE_API_RETRY_DELAY=1000
 
 # Cache Configuration
 VITE_CACHE_DURATION=3600000
@@ -213,7 +217,27 @@ VITE_CACHE_DURATION=3600000
 VITE_DB_NAME=ams-products-db
 VITE_DB_VERSION=1
 VITE_DB_STORE_NAME=products
+VITE_CART_STORE_NAME=cart-ids
 ```
+
+### Descripción de las Variables
+
+- **API Configuration**
+
+  - `VITE_API_BASE_URL`: URL base de la API
+  - `VITE_API_TIMEOUT`: Tiempo máximo de espera para las llamadas a la API (en milisegundos)
+  - `VITE_API_MAX_RETRIES`: Número máximo de reintentos para las llamadas a la API
+  - `VITE_API_RETRY_DELAY`: Tiempo de espera entre reintentos (en milisegundos)
+
+- **Cache Configuration**
+
+  - `VITE_CACHE_DURATION`: Duración del caché en milisegundos (1 hora por defecto)
+
+- **IndexedDB Configuration**
+  - `VITE_DB_NAME`: Nombre de la base de datos IndexedDB
+  - `VITE_DB_VERSION`: Versión de la base de datos
+  - `VITE_DB_STORE_NAME`: Nombre del almacén de datos de productos
+  - `VITE_CART_STORE_NAME`: Nombre del almacén de datos del carrito
 
 ## Instalación
 
